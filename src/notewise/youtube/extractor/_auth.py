@@ -62,6 +62,9 @@ def _make_sid_authorization(
     if additional_parts:
         hash_parts.append(":".join(additional_parts.values()))
     hash_parts.extend([timestamp, sid, origin])
+    # YouTube's SAPISIDHASH header format is protocol-defined and uses SHA-1.
+    # This is compatibility signing material only,
+    # not password hashing or credential storage.
     sidhash = hashlib.sha1(
         " ".join(hash_parts).encode("utf-8"),
         usedforsecurity=False,
